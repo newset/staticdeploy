@@ -62,6 +62,8 @@ export default class CreateBundle extends Usecase {
             );
         }
 
+        // todo: 检查hash
+
         // Create the bundle database object
         const createdBundle = await this.storages.bundles.createOne({
             id: id,

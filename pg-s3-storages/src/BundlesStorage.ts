@@ -108,9 +108,10 @@ export default class BundlesStorage implements IBundlesStorage {
         await concurrentForEach(toBeCreatedBundle.assets, async (asset) => {
             await this.s3Client
                 .putObject({
-                    Bucket: this.s3Bucket,
+                    Bucket: toBeCreatedBundle.id,
                     Body: asset.content,
-                    Key: this.getAssetS3Key(toBeCreatedBundle.id, asset.path),
+                    Key: asset.path,
+                    ContentType: asset.mimeType,
                 })
                 .promise();
         });
