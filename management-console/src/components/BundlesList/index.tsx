@@ -34,6 +34,13 @@ export default class BundlesList extends React.Component<IProps> {
                 ),
             },
             {
+                key: "hash",
+                title: "Hash",
+                dataIndex: "hash",
+                className: "c-BundlesList-description-column",
+                render: (hash: string) => <TruncatedText>{hash}</TruncatedText>,
+            },
+            {
                 key: "createdAt",
                 title: "Age",
                 dataIndex: "createdAt",

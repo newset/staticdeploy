@@ -7,7 +7,7 @@ import {
 import { S3 } from "aws-sdk";
 import Knex from "knex";
 import { flatten, map, omit } from "lodash";
-import { join } from "path";
+// import { join } from "path";
 
 import concurrentForEach from "./common/concurrentForEach";
 import convertErrors from "./common/convertErrors";
@@ -44,7 +44,7 @@ export default class BundlesStorage implements IBundlesStorage {
         const assetS3Key = this.getAssetS3Key(bundleId, assetPath);
         try {
             const s3Object = await this.s3Client
-                .getObject({ Bucket: this.s3Bucket, Key: assetS3Key })
+                .getObject({ Bucket: bundleId, Key: assetS3Key })
                 .promise();
             return s3Object.Body as Buffer;
         } catch (err) {
@@ -171,9 +171,10 @@ export default class BundlesStorage implements IBundlesStorage {
         await this.knex(tables.bundles).whereIn("id", ids).delete();
     }
 
-    private getAssetS3Key(bundleId: string, assetPath: string) {
+    private getAssetS3Key(_bundleId: string, assetPath: string) {
         // When using minio.io as an S3 server, keys can't have a leading /
         // (unlike in AWS S3), so we omit it
-        return join(bundleId, assetPath);
+        return assetPath;
+        // return join(bundleId, assetPath);
     }
 }
